@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/Model.dart';
+import 'package:food_recipe/RecipeView.dart';
+import 'package:food_recipe/Search.dart';
 import 'package:http/http.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -95,7 +97,7 @@ class _HomeState extends State<Home> {
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.CENTER);
                             } else {
-                              getRecipe(searchController.text);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Search(searchController.text)));
                             }
                           },
                           child: Container(
@@ -138,7 +140,9 @@ class _HomeState extends State<Home> {
                       itemCount: recipeList.length,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeView(recipeList[index].appUrl)));
+                          },
                           child: Card(
                             margin: const EdgeInsets.all(20),
                             shape: RoundedRectangleBorder(
@@ -221,7 +225,9 @@ class _HomeState extends State<Home> {
                       itemBuilder: (context, index) {
                         return Container(
                             child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.pushReplacementNamed(context, MaterialPageRoute(builder: (context) => Search(recipeCatList[index]["heading"])) as String);
+                                },
                                 child: Card(
                                   margin: const EdgeInsets.all(20),
                                   shape: RoundedRectangleBorder(
